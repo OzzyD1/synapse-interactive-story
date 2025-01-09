@@ -1,18 +1,12 @@
-import { useState } from 'react'
+import VideoContainer from './components/VideoContainer';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
+    <div>
       <h1>Synapse</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
-  )
-}
+      <VideoContainer />
+    </div>
+  );
+};
 
-export default App
+export default App;
