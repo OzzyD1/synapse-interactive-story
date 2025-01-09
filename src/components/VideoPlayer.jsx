@@ -1,9 +1,15 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-const VideoPlayer = ({ src, onEnded }) => {
+const VideoPlayer = ({ src, onEnded, startTime = 0 }) => {
   const videoRef = useRef(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = startTime;
+    }
+  }, [src, startTime]);
 
   const handleEnded = () => {
     if (onEnded) onEnded();
@@ -22,7 +28,7 @@ const VideoPlayer = ({ src, onEnded }) => {
   }
 
   return (
-    <video 
+<video 
       ref={videoRef}
       src={src}
       controls
@@ -36,7 +42,8 @@ const VideoPlayer = ({ src, onEnded }) => {
 
 VideoPlayer.propTypes = {
   src: PropTypes.string.isRequired,
-  onEnded: PropTypes.func
+  onEnded: PropTypes.func,
+  startTime: PropTypes.number
 };
 
 export default VideoPlayer;
