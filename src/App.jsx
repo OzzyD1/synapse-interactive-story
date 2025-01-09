@@ -1,11 +1,11 @@
-import VideoContainer from './components/VideoContainer';
+import VideoContainer from "./components/VideoContainer";
 
 const App = () => {
-  return (
-    <div>
-      <VideoContainer />
-    </div>
-  );
+    return (
+        <div>
+            <VideoContainer />
+        </div>
+    );
 };
 
 export default App;
