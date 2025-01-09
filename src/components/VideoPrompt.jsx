@@ -1,37 +1,52 @@
-import PropTypes from 'prop-types';
+import { motion } from "framer-motion";
 
 const VideoPrompt = ({ videos, onVideoSelect }) => {
-  return (
-    <div className="video-prompt">
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {videos.map(video => (
-          <li key={video.id} style={{ margin: '10px 0' }}>
-            <button 
-              onClick={() => onVideoSelect(video.src)}
-              style={{
-                padding: '10px 20px',
-                cursor: 'pointer',
-                width: '100%'
-              }}
-            >
-              {video.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+            },
+        },
+    };
 
-VideoPrompt.propTypes = {
-  videos: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      src: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  onVideoSelect: PropTypes.func.isRequired
+    const buttonVariants = {
+        hidden: { y: 50, opacity: 0 },
+        show: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 100,
+            },
+        },
+    };
+
+    return (
+        <motion.div
+            className="prompt-container"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+        >
+            {videos.map((video) => (
+                <motion.button
+                    key={video.id}
+                    className="modern-button"
+                    onClick={() => onVideoSelect(video.src)}
+                    variants={buttonVariants}
+                    whileHover={{
+                        scale: 1.05,
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    {video.title}
+                </motion.button>
+            ))}
+        </motion.div>
+    );
 };
 
 export default VideoPrompt;
