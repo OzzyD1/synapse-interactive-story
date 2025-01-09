@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 const VideoPrompt = ({ videos, onVideoSelect }) => {
   return (
     <div className="video-prompt">
-      <h2>Make a choice:</h2>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {videos.map(video => (
           <li key={video.id} style={{ margin: '10px 0' }}>

@@ -21,6 +21,7 @@ const videos = [
     id: 4,
     title: "Message The Manager (Promotion Loopback)",
     src: "/assets/animatic/Promotion Arc/Act 3.a - Promotion Loopback.mp4",
+    choices: [],
     loopbackTo: {
       videoId: 1,
       timestamp: 37 // in seconds
@@ -36,6 +37,7 @@ const videos = [
     id: 6,
     title: "Restart Simulation (Discovery Loopback)",
     src: "assets/animatic/Discovery Arc/Act 3.a - Discovery Loopback.mp4",
+    choices: [],
     loopbackTo: {
       videoId: 1,
       timestamp: 37 // in seconds
@@ -51,11 +53,13 @@ const videos = [
     id: 8,
     title: "Ignore The Manager, exit the simulation",
     src: "assets/animatic/Discovery Arc/Act 5 - Discovery Arc (Leave).mp4",
+    choices: []
   },
   {
     id: 9,
     title: "Reply to The Manager, stay the simulation",
     src: "assets/animatic/Discovery Arc/Act 5 - Discovery Arc (Stay).mp4",
+    choices: []
   }
 ];
 

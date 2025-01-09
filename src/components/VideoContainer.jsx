@@ -4,9 +4,9 @@ import VideoPrompt from './VideoPrompt';
 import videos from '../data/videos';
 
 const VideoContainer = () => {
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [showPrompt, setShowPrompt] = useState(false);
-  const [startTime, setStartTime] = useState(0);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);  // Tracks current video
+  const [showPrompt, setShowPrompt] = useState(false);           // Controls prompt visibility
+  const [startTime, setStartTime] = useState(0);                 // Tracks video timestamp
 
   const getAvailableChoices = () => {
     const currentVideo = videos[currentVideoIndex];
@@ -32,18 +32,18 @@ const VideoContainer = () => {
 
   return (
     <div>
-      <VideoPlayer 
-        src={videos[currentVideoIndex].src}
-        startTime={startTime}
-        onEnded={handleVideoEnded} 
+      <VideoPlayer                          // Renders video player component
+        src={videos[currentVideoIndex].src} // Current video source
+        startTime={startTime}               // Video start time
+        onEnded={handleVideoEnded}          // End video callback
       />
-      {showPrompt && (
-        <VideoPrompt 
-          videos={getAvailableChoices()} 
-          onVideoSelect={handleVideoSelect} 
-        />
-      )}
-    </div>
+      {showPrompt && (                      // Conditional render of prompt
+      <VideoPrompt 
+        videos={getAvailableChoices()}    // Available video choices
+        onVideoSelect={handleVideoSelect} // Selection handler
+      />
+    )}
+  </div>
   );
 };
 

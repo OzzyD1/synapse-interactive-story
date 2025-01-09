@@ -2,17 +2,17 @@ import { useRef, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 const VideoPlayer = ({ src, onEnded, startTime = 0 }) => {
-  const videoRef = useRef(null);
-  const [error, setError] = useState(null);
+  const videoRef = useRef(null);              // Reference to video DOM element
+  const [error, setError] = useState(null);   // Tracks error state
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.currentTime = startTime;
     }
-  }, [src, startTime]);
+  }, [src, startTime]);                       // Runs when src or startTime changes
 
   const handleEnded = () => {
-    if (onEnded) onEnded();
+    if (onEnded) onEnded();                   // Calls parent callback when video ends
   };
 
   const handleError = (e) => {
