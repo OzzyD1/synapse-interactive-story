@@ -7,7 +7,7 @@ const videos = [
     },
     {
         id: 2,
-        title: "Message The Manager (Start Promotion Arc)",
+        title: "Message The Manager",
         src: "/assets/animatic/Promotion Arc/Act 3 - Promotion Arc.mp4",
         choices: [4, 5],
     },
@@ -24,7 +24,7 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 37, // in seconds
+            timestamp: 65, // in seconds
         },
     },
     {
@@ -40,7 +40,7 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 37, // in seconds
+            timestamp: 65, // in seconds
         },
     },
     {

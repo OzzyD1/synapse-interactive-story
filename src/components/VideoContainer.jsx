@@ -4,9 +4,10 @@ import VideoPrompt from "./VideoPrompt";
 import videos from "../data/videos";
 
 const VideoContainer = () => {
-    const [currentVideoIndex, setCurrentVideoIndex] = useState(0); // Tracks current video
-    const [showPrompt, setShowPrompt] = useState(false); // Controls prompt visibility
-    const [startTime, setStartTime] = useState(0); // Tracks video timestamp
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const [showPrompt, setShowPrompt] = useState(false);
+    const [startTime, setStartTime] = useState(0);
+    const [pendingLoopback, setPendingLoopback] = useState(null);
 
     const getAvailableChoices = () => {
         const currentVideo = videos[currentVideoIndex];
@@ -16,35 +17,44 @@ const VideoContainer = () => {
     };
 
     const handleVideoEnded = () => {
-        setShowPrompt(true);
+        if (pendingLoopback) {
+            // Apply pending loopback transition
+            setCurrentVideoIndex(pendingLoopback.videoId - 1);
+            setStartTime(pendingLoopback.timestamp);
+            setPendingLoopback(null);
+        } else {
+            setShowPrompt(true);
+        }
     };
 
     const handleVideoSelect = (selectedSrc) => {
         const selectedVideo = videos.find((video) => video.src === selectedSrc);
-        if (selectedVideo.loopbackTo) {
-            setCurrentVideoIndex(selectedVideo.loopbackTo.videoId - 1);
-            setStartTime(selectedVideo.loopbackTo.timestamp);
-        } else {
-            const newIndex = videos.findIndex(
-                (video) => video.src === selectedSrc
-            );
-            setCurrentVideoIndex(newIndex);
-            setStartTime(0);
-        }
+        const newIndex = videos.findIndex((video) => video.src === selectedSrc);
+
+        // Always play the selected video immediately
+        setCurrentVideoIndex(newIndex);
+        setStartTime(0);
         setShowPrompt(false);
+
+        // Store loopback information if it exists
+        if (selectedVideo.loopbackTo) {
+            setPendingLoopback(selectedVideo.loopbackTo);
+        } else {
+            setPendingLoopback(null);
+        }
     };
 
     return (
         <div className="video-container">
-            <VideoPlayer // Renders video player component
-                src={videos[currentVideoIndex].src} // Current video source
-                startTime={startTime} // Video start time
-                onEnded={handleVideoEnded} // End video callback
+            <VideoPlayer
+                src={videos[currentVideoIndex].src}
+                startTime={startTime}
+                onEnded={handleVideoEnded}
             />
-            {showPrompt && ( // Conditional render of prompt
+            {showPrompt && (
                 <VideoPrompt
-                    videos={getAvailableChoices()} // Available video choices
-                    onVideoSelect={handleVideoSelect} // Selection handler
+                    videos={getAvailableChoices()}
+                    onVideoSelect={handleVideoSelect}
                 />
             )}
         </div>
