@@ -2,7 +2,8 @@ name: Build and Deploy
 on:
     push:
         branches:
-            - main # Change if your default branch is different
+            - main # Change this if your main branch is different
+    workflow_dispatch: # Allows manual triggering from GitHub Actions UI
 
 permissions:
     contents: write
@@ -17,7 +18,7 @@ jobs:
             - name: Set Up Node.js 🔧
               uses: actions/setup-node@v3
               with:
-                  node-version: 18 # Match your local version
+                  node-version: 18 # Match your local Node.js version
 
             - name: Install Dependencies 📦
               run: npm ci
@@ -35,4 +36,5 @@ jobs:
               uses: JamesIves/github-pages-deploy-action@v4
               with:
                   branch: gh-pages
-                  folder: dist # Vite outputs to dist, not build
+                  folder: dist # Deploy the correct output directory
+                  clean: true # Ensures old files are removed before deploying
