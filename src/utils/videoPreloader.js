@@ -12,19 +12,38 @@ class VideoPreloader {
         );
     }
 
-    preloadVideo(url, onProgress) {
-        return new Promise((resolve) => {
-            const video = document.createElement("video");
-            video.src = url;
-            video.preload = "auto";
+    async preloadVideo(url, onProgress) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to load video: ${url}`);
 
-            video.addEventListener("loadeddata", () => {
-                this.preloadedVideos.set(url, video);
-                this.loadedVideos++;
-                onProgress(this.loadedVideos / this.totalVideos);
-                resolve();
+            const blob = await response.blob();
+            const videoUrl = URL.createObjectURL(blob);
+
+            const video = document.createElement("video");
+            video.src = videoUrl;
+
+            return new Promise((resolve) => {
+                video.addEventListener("loadeddata", () => {
+                    this.preloadedVideos.set(url, video);
+                    this.loadedVideos++;
+                    onProgress(this.loadedVideos / this.totalVideos);
+                    resolve();
+                });
+
+                video.addEventListener("error", (e) => {
+                    console.error(`Error loading video ${url}:`, e);
+                    this.loadedVideos++;
+                    onProgress(this.loadedVideos / this.totalVideos);
+                    resolve();
+                });
             });
-        });
+        } catch (error) {
+            console.error(`Failed to preload video ${url}:`, error);
+            this.loadedVideos++;
+            onProgress(this.loadedVideos / this.totalVideos);
+            return Promise.resolve(); // Continue loading other videos
+        }
     }
 
     getPreloadedVideo(url) {

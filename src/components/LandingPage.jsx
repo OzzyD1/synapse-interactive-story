@@ -6,20 +6,41 @@ import VideoPreloader from "../utils/videoPreloader";
 const LandingPage = ({ onStart }) => {
     const [progress, setProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const videoUrls = videos.map((video) => video.src);
+        console.log("Starting video preload for URLs:", videoUrls);
         const preloader = new VideoPreloader(videoUrls);
 
         preloader
             .preloadVideos((progress) => {
+                console.log(`Loading progress: ${Math.round(progress * 100)}%`);
                 setProgress(progress);
             })
             .then(() => {
+                console.log("Video preloading complete");
                 setIsLoading(false);
                 window.videoPreloader = preloader; // Store for global access
+            })
+            .catch((err) => {
+                console.error("Video preloading failed:", err);
+                setError(err.message);
+                setIsLoading(false);
             });
     }, []);
+
+    if (error) {
+        return (
+            <div className="landing-page">
+                <h1>Synapse Interactive Story</h1>
+                <div className="error-message">
+                    <p>Failed to load videos. Please refresh the page.</p>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="landing-page">
