@@ -1,0 +1,110 @@
+.app {
+    min-height: 100vh;
+    background: #1a1a1a;
+    color: white;
+}
+
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+.landing-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.loading-container {
+    width: 80%;
+    max-width: 400px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a9eff, #6c63ff);
+    border-radius: 5px;
+}
+
+.start-button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #4a9eff, #6c63ff);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    margin-top: 2rem;
+}
+
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.prompt-container {
+    /* position: fixed; */
+    bottom: 5vh;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+.timer {
+    position: absolute;
+    top: -40px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 15px;
+    border-radius: 15px;
+}
+
+.modern-button {
+    padding: 12px 20px;
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.error {
+    color: #ff4444;
+    padding: 20px;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 20px 0;
+}

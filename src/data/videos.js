@@ -4,18 +4,21 @@ const videos = [
         title: "Act 1 - 2",
         src: "/synapse-interactive-story/videos/Act1-2.mp4",
         choices: [2, 3],
+        promptStart: 15, // Prompt will appear 15 seconds before the end
     },
     {
         id: 2,
         title: "Message The Manager",
         src: "/synapse-interactive-story/videos/Promotion Arc/Act 3 - Promotion Arc.mp4",
         choices: [4, 5],
+        promptStart: 10,
     },
     {
         id: 3,
         title: "Repair",
         src: "/synapse-interactive-story/videos/Discovery Arc/Act 3 - Discovery Arc.mp4",
         choices: [6, 7],
+        promptStart: 12,
     },
     {
         id: 4,
@@ -48,6 +51,7 @@ const videos = [
         title: "Continue Digging (Continue Discovery Arc)",
         src: "/synapse-interactive-story/videos/Discovery Arc/Act 4 - Discovery Arc.mp4",
         choices: [8, 9],
+        promptStart: 20,
     },
     {
         id: 8,

@@ -1,6 +1,20 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-const VideoPrompt = ({ videos, onVideoSelect }) => {
+const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
+    const [isPulsing, setIsPulsing] = useState(false);
+
+    useEffect(() => {
+        if (timeRemaining <= 4) {
+            setIsPulsing(true);
+        }
+
+        if (timeRemaining <= 0) {
+            const randomIndex = Math.floor(Math.random() * videos.length);
+            onVideoSelect(videos[randomIndex].src);
+        }
+    }, [timeRemaining, videos, onVideoSelect]);
+
     const containerVariants = {
         hidden: { opacity: 0 },
         show: {
@@ -23,6 +37,16 @@ const VideoPrompt = ({ videos, onVideoSelect }) => {
         },
     };
 
+    const pulseAnimation = isPulsing
+        ? {
+              scale: [1, 1.1, 1],
+              transition: {
+                  duration: Math.max(0.5, timeRemaining / 8),
+                  repeat: Infinity,
+              },
+          }
+        : {};
+
     return (
         <motion.div
             className="prompt-container"
@@ -30,15 +54,17 @@ const VideoPrompt = ({ videos, onVideoSelect }) => {
             initial="hidden"
             animate="show"
         >
+            <div className="timer">{Math.ceil(timeRemaining)}s</div>
             {videos.map((video) => (
                 <motion.button
                     key={video.id}
                     className="modern-button"
                     onClick={() => onVideoSelect(video.src)}
                     variants={buttonVariants}
+                    animate={isPulsing ? pulseAnimation : {}}
                     whileHover={{
                         scale: 1.05,
-                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        backgroundColor: "rgba(255, 108, 108, 0.51)",
                     }}
                     whileTap={{ scale: 0.95 }}
                 >
