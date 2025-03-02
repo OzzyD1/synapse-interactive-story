@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
     const [isPulsing, setIsPulsing] = useState(false);
@@ -73,6 +74,17 @@ const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
             ))}
         </motion.div>
     );
+};
+VideoPrompt.propTypes = {
+    videos: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            src: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    onVideoSelect: PropTypes.func.isRequired,
+    timeRemaining: PropTypes.number.isRequired,
 };
 
 export default VideoPrompt;

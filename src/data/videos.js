@@ -18,7 +18,7 @@ const videos = [
         title: "Repair",
         src: "videos/discovery-arc/act3-1-discovery.mp4",
         choices: [6, 7],
-        promptStart: 12,
+        promptStart: 10,
     },
     {
         id: 4,
@@ -51,7 +51,7 @@ const videos = [
         title: "Continue Digging",
         src: "videos/discovery-arc/act3-2-4-discovery.mp4",
         choices: [8, 9],
-        promptStart: 20,
+        promptStart: 10,
     },
     {
         id: 8,
