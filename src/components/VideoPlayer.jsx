@@ -7,39 +7,18 @@ const VideoPlayer = ({ src, onEnded, onTimeUpdate, startTime = 0 }) => {
 
     useEffect(() => {
         if (videoRef.current) {
-            // Use preloaded video if available
-            const preloadedVideo =
-                window.videoPreloader?.getPreloadedVideo(src);
-            if (preloadedVideo) {
-                videoRef.current.src = preloadedVideo.src;
-            }
             videoRef.current.currentTime = startTime;
         }
     }, [src, startTime]);
 
-    const handleEnded = () => {
-        if (onEnded) onEnded();
-    };
-
     const handleError = (e) => {
-        setError(`Error loading video: ${e.target.error.message}`);
-    };
-
-    const handleTimeUpdate = () => {
-        if (onTimeUpdate && videoRef.current) {
-            onTimeUpdate({
-                currentTime: videoRef.current.currentTime,
-                duration: videoRef.current.duration,
-            });
-        }
+        setError(
+            `Error loading video: ${e.target.error?.message || "Unknown error"}`
+        );
     };
 
     if (error) {
         return <div className="error">{error}</div>;
-    }
-
-    if (!src) {
-        return <div>No video source provided</div>;
     }
 
     return (
@@ -49,9 +28,14 @@ const VideoPlayer = ({ src, onEnded, onTimeUpdate, startTime = 0 }) => {
             controls
             controlsList="nofullscreen"
             autoPlay
-            onEnded={handleEnded}
+            onEnded={onEnded}
             onError={handleError}
-            onTimeUpdate={handleTimeUpdate}
+            onTimeUpdate={() =>
+                onTimeUpdate?.({
+                    currentTime: videoRef.current.currentTime,
+                    duration: videoRef.current.duration,
+                })
+            }
         />
     );
 };

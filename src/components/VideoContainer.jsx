@@ -7,71 +7,55 @@ const VideoContainer = () => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const [showPrompt, setShowPrompt] = useState(false);
     const [startTime, setStartTime] = useState(0);
-    const [pendingLoopback, setPendingLoopback] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(10);
 
-    const getAvailableChoices = () => {
-        const currentVideo = videos[currentVideoIndex];
-        return videos.filter((video) =>
-            currentVideo.choices.includes(video.id)
-        );
-    };
+    const currentVideo = videos[currentVideoIndex];
+    const choices = videos.filter((video) =>
+        currentVideo.choices.includes(video.id)
+    );
 
     const handleTimeUpdate = ({ currentTime, duration }) => {
-        const currentVideo = videos[currentVideoIndex];
         const timeToEnd = duration - currentTime;
-
-        if (
+        const shouldShowPrompt =
             currentVideo.choices.length > 0 &&
-            timeToEnd <= (currentVideo.promptStart || 10) &&
-            !showPrompt
-        ) {
-            setShowPrompt(true);
-            setTimeRemaining(timeToEnd);
-        } else if (showPrompt) {
-            setTimeRemaining(timeToEnd);
-        }
-    };
+            timeToEnd <= (currentVideo.promptStart || 10);
 
-    const handleVideoEnded = () => {
-        if (pendingLoopback) {
-            // Apply pending loopback transition
-            setCurrentVideoIndex(pendingLoopback.videoId - 1);
-            setStartTime(pendingLoopback.timestamp);
-            setPendingLoopback(null);
-        } else {
+        if (shouldShowPrompt && !showPrompt) {
             setShowPrompt(true);
+        }
+        if (showPrompt) {
+            setTimeRemaining(timeToEnd);
         }
     };
 
     const handleVideoSelect = (selectedSrc) => {
-        const selectedVideo = videos.find((video) => video.src === selectedSrc);
         const newIndex = videos.findIndex((video) => video.src === selectedSrc);
+        const selectedVideo = videos[newIndex];
 
-        // Always play the selected video immediately
         setCurrentVideoIndex(newIndex);
         setStartTime(0);
         setShowPrompt(false);
 
-        // Store loopback information if it exists
         if (selectedVideo.loopbackTo) {
-            setPendingLoopback(selectedVideo.loopbackTo);
-        } else {
-            setPendingLoopback(null);
+            const { videoId, timestamp } = selectedVideo.loopbackTo;
+            setTimeout(() => {
+                setCurrentVideoIndex(videoId - 1);
+                setStartTime(timestamp);
+            }, 0);
         }
     };
 
     return (
         <div className="video-container">
             <VideoPlayer
-                src={videos[currentVideoIndex].src}
+                src={currentVideo.src}
                 startTime={startTime}
-                onEnded={handleVideoEnded}
+                onEnded={() => setShowPrompt(true)}
                 onTimeUpdate={handleTimeUpdate}
             />
-            {showPrompt && (
+            {showPrompt && choices.length > 0 && (
                 <VideoPrompt
-                    videos={getAvailableChoices()}
+                    videos={choices}
                     onVideoSelect={handleVideoSelect}
                     timeRemaining={timeRemaining}
                 />
