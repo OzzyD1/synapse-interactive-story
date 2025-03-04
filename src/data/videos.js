@@ -22,13 +22,14 @@ const videos = [
     },
     {
         id: 4,
-        title: "Message The Manager",
+        title: "Tell The Manager",
         src: "videos/promotion-arc/act3-loop-promotion.mp4",
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 65,
+            timestamp: 43,
         },
+        loopbackDelay: true,
     },
     {
         id: 5,
@@ -43,12 +44,13 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 65,
+            timestamp: 43,
         },
+        loopbackDelay: true,
     },
     {
         id: 7,
-        title: "Continue Digging",
+        title: "Look for more",
         src: "videos/discovery-arc/act3-2-4-discovery.mp4",
         choices: [8, 9],
         promptStart: 10,

@@ -36,7 +36,7 @@ const VideoContainer = () => {
         setStartTime(0);
         setShowPrompt(false);
 
-        if (selectedVideo.loopbackTo) {
+        if (selectedVideo.loopbackTo && !selectedVideo.loopbackDelay) {
             const { videoId, timestamp } = selectedVideo.loopbackTo;
             setTimeout(() => {
                 setCurrentVideoIndex(videoId - 1);
@@ -45,12 +45,23 @@ const VideoContainer = () => {
         }
     };
 
+    const handleVideoEnded = () => {
+        const video = videos[currentVideoIndex];
+        if (video.loopbackTo && video.loopbackDelay) {
+            const { videoId, timestamp } = video.loopbackTo;
+            setCurrentVideoIndex(videoId - 1);
+            setStartTime(timestamp);
+        } else {
+            setShowPrompt(true);
+        }
+    };
+
     return (
         <div className="video-container">
             <VideoPlayer
                 src={currentVideo.src}
                 startTime={startTime}
-                onEnded={() => setShowPrompt(true)}
+                onEnded={handleVideoEnded}
                 onTimeUpdate={handleTimeUpdate}
             />
             {showPrompt && choices.length > 0 && (
