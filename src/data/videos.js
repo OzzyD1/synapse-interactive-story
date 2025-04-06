@@ -27,7 +27,7 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 43,
+            timestamp: 157,
         },
         loopbackDelay: true,
     },
@@ -44,7 +44,7 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 43,
+            timestamp: 157,
         },
         loopbackDelay: true,
     },
