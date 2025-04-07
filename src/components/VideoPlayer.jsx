@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { preloader } from "../utils/videoPreloader";
+import videos from "../data/videos";
 
 const VideoPlayer = ({
     src,
@@ -16,6 +18,17 @@ const VideoPlayer = ({
             videoRef.current.currentTime = startTime;
         }
     }, [src, startTime]);
+
+    useEffect(() => {
+        // Preload next possible videos when current video starts playing
+        const currentVideo = videos.find((v) => v.src === src);
+        if (currentVideo?.choices?.length > 0) {
+            const nextVideos = videos
+                .filter((v) => currentVideo.choices.includes(v.id))
+                .map((v) => v.src);
+            preloader.preloadMultiple(nextVideos);
+        }
+    }, [src]);
 
     const handleError = (e) => {
         setError(

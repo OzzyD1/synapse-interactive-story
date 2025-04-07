@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VideoPlayer from "./VideoPlayer";
 import VideoPrompt from "./VideoPrompt";
 import videos from "../data/videos";
+import { preloader } from "../utils/videoPreloader";
 
 const VideoContainer = () => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const [showPrompt, setShowPrompt] = useState(false);
     const [startTime, setStartTime] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(10);
+
+    useEffect(() => {
+        const firstVideo = videos[0];
+        preloader.preload(firstVideo.src).then(() => {
+            const nextChoices = videos
+                .filter((v) => firstVideo.choices.includes(v.id))
+                .map((v) => v.src);
+            preloader.preloadMultiple(nextChoices);
+        });
+    }, []);
 
     const currentVideo = videos[currentVideoIndex];
     const choices = videos.filter((video) =>
