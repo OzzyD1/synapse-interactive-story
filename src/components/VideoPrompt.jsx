@@ -17,36 +17,42 @@ const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
     }, [timeRemaining, videos, onVideoSelect]);
 
     const containerVariants = {
-        hidden: { opacity: 0 },
+        hidden: { opacity: 0, y: 100 },
         show: {
             opacity: 1,
+            y: 0,
             transition: {
-                staggerChildren: 0.2,
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+                staggerChildren: 0.1,
             },
         },
     };
 
     const buttonVariants = {
-        hidden: { y: 50, opacity: 0 },
+        hidden: { opacity: 0, y: 20 },
         show: {
-            y: 0,
             opacity: 1,
+            y: 0,
             transition: {
                 type: "spring",
-                stiffness: 100,
+                stiffness: 200,
+                damping: 20,
             },
         },
+        hover: {
+            scale: 1.05,
+            backgroundColor: "rgba(255, 108, 108, 0.9)",
+            y: -5,
+            transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 10,
+            },
+        },
+        tap: { scale: 0.95, y: 0 },
     };
-
-    const pulseAnimation = isPulsing
-        ? {
-              scale: [1, 1.1, 1],
-              transition: {
-                  duration: Math.max(0.5, timeRemaining / 8),
-                  repeat: Infinity,
-              },
-          }
-        : {};
 
     return (
         <motion.div
@@ -55,19 +61,24 @@ const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
             initial="hidden"
             animate="show"
         >
-            <div className="timer">{Math.ceil(timeRemaining)}s</div>
+            <motion.div
+                className="timer"
+                animate={{ scale: timeRemaining <= 4 ? [1, 1.2, 1] : 1 }}
+                transition={{
+                    repeat: timeRemaining <= 4 ? Infinity : 0,
+                    duration: 0.5,
+                }}
+            >
+                {Math.ceil(timeRemaining)}s
+            </motion.div>
             {videos.map((video) => (
                 <motion.button
                     key={video.id}
                     className="modern-button"
                     onClick={() => onVideoSelect(video.src)}
                     variants={buttonVariants}
-                    animate={isPulsing ? pulseAnimation : {}}
-                    whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "rgba(255, 108, 108, 0.51)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover="hover"
+                    whileTap="tap"
                 >
                     {video.title}
                 </motion.button>
@@ -75,6 +86,7 @@ const VideoPrompt = ({ videos, onVideoSelect, timeRemaining }) => {
         </motion.div>
     );
 };
+
 VideoPrompt.propTypes = {
     videos: PropTypes.arrayOf(
         PropTypes.shape({

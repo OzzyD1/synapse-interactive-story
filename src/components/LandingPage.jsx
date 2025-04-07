@@ -1,23 +1,20 @@
-import { motion } from "framer-motion";
-import PropTypes from "prop-types";
+import { useState } from "react";
+import "../styles/LandingPage.css";
 
 const LandingPage = ({ onStart }) => {
+    const [fadeOut, setFadeOut] = useState(false);
+
+    const handleStart = () => {
+        setFadeOut(true);
+        setTimeout(onStart, 1000);
+    };
+
     return (
-        <div className="landing-page">
-            <h1>Synapse Interactive Story</h1>
-            <motion.button
-                className="start-button"
-                onClick={onStart}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-            >
-                Start Experience
-            </motion.button>
+        <div className={`landing-page ${fadeOut ? "fade-out" : ""}`}>
+            <h1>SYNAPSE</h1>
+            <button onClick={handleStart}>BEGIN</button>
         </div>
     );
-};
-LandingPage.propTypes = {
-    onStart: PropTypes.func.isRequired,
 };
 
 export default LandingPage;

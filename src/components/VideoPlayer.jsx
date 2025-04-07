@@ -1,7 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const VideoPlayer = ({ src, onEnded, onTimeUpdate, startTime = 0 }) => {
+const VideoPlayer = ({
+    src,
+    onEnded,
+    onTimeUpdate,
+    startTime = 0,
+    objectFit = "contain",
+}) => {
     const videoRef = useRef(null);
     const [error, setError] = useState(null);
 
@@ -23,8 +29,10 @@ const VideoPlayer = ({ src, onEnded, onTimeUpdate, startTime = 0 }) => {
 
     return (
         <video
+            className="video-player"
             ref={videoRef}
             src={src}
+            style={{ objectFit }}
             controls
             controlsList="nofullscreen"
             autoPlay
@@ -45,6 +53,7 @@ VideoPlayer.propTypes = {
     onEnded: PropTypes.func,
     onTimeUpdate: PropTypes.func,
     startTime: PropTypes.number,
+    objectFit: PropTypes.oneOf(["contain", "cover", "fill"]),
 };
 
 export default VideoPlayer;

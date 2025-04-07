@@ -1,20 +1,15 @@
 import { useState } from "react";
 import LandingPage from "./components/LandingPage";
 import VideoContainer from "./components/VideoContainer";
-import "./styles/main.css";
 
-function App() {
-    const [isStarted, setIsStarted] = useState(false);
+const App = () => {
+    const [showVideo, setShowVideo] = useState(false);
 
-    return (
-        <div className="app">
-            {!isStarted ? (
-                <LandingPage onStart={() => setIsStarted(true)} />
-            ) : (
-                <VideoContainer />
-            )}
-        </div>
+    return showVideo ? (
+        <VideoContainer />
+    ) : (
+        <LandingPage onStart={() => setShowVideo(true)} />
     );
-}
+};
 
 export default App;

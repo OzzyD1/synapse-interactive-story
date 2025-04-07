@@ -15,7 +15,7 @@ const videos = [
     },
     {
         id: 3,
-        title: "Repair",
+        title: "Repair Yourself",
         src: "videos/discovery-arc/act3-1-discovery.mp4",
         choices: [6, 7],
         promptStart: 10,
@@ -27,7 +27,7 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 157,
+            timestamp: 55,
         },
         loopbackDelay: true,
     },
@@ -44,13 +44,13 @@ const videos = [
         choices: [],
         loopbackTo: {
             videoId: 1,
-            timestamp: 157,
+            timestamp: 55,
         },
         loopbackDelay: true,
     },
     {
         id: 7,
-        title: "Look for more",
+        title: "Investigate Further",
         src: "videos/discovery-arc/act3-2-4-discovery.mp4",
         choices: [8, 9],
         promptStart: 10,

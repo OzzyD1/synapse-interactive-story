@@ -1,9 +1,3 @@
-.app {
-    min-height: 100vh;
-    background: #1a1a1a;
-    color: white;
-}
-
 .video-container {
     position: fixed;
     top: 0;
@@ -11,26 +5,31 @@
     width: 100vw;
     height: 100vh;
     background: #000;
+    overflow: hidden;
 }
 
 .video-container video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: contain; /* Change to contain for proper aspect ratio */
 }
 
 .prompt-container {
+    position: fixed;
     bottom: 5vh;
-    width: 90%;
-    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(90%, 600px); /* Changed from fixed max-width to min() */
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px;
+    gap: 1rem;
+    padding: 2rem;
     border-radius: 10px;
     z-index: 1000;
-    max-height: 40vh;
-    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
 }
 
 .timer {
@@ -45,9 +44,16 @@
 }
 
 .modern-button {
-    padding: 12px 20px;
-    color: black;
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-family: "League Gothic", sans-serif;
+    font-size: 1.2rem;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -59,30 +65,4 @@
     background: rgba(255, 0, 0, 0.1);
     border-radius: 8px;
     margin: 20px 0;
-}
-
-.landing-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    text-align: center;
-}
-
-.landing-page h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #fff;
-}
-
-.start-button {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    background: linear-gradient(135deg, #4a9eff, #6c63ff);
-    border: none;
-    border-radius: 25px;
-    color: white;
-    cursor: pointer;
-    margin-top: 2rem;
 }
