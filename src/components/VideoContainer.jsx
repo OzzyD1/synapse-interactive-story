@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import VideoPlayer from "./VideoPlayer";
 import VideoPrompt from "./VideoPrompt";
+import EndScreen from "./EndScreen";
+import FinalEndScreen from "./FinalEndScreen";
 import videos from "../data/videos";
 import { preloader } from "../utils/videoPreloader";
 
 const VideoContainer = () => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const [showPrompt, setShowPrompt] = useState(false);
+    const [showEndScreen, setShowEndScreen] = useState(false);
+    const [showFinalEnd, setShowFinalEnd] = useState(null);
     const [startTime, setStartTime] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(10);
 
@@ -58,6 +62,18 @@ const VideoContainer = () => {
 
     const handleVideoEnded = () => {
         const video = videos[currentVideoIndex];
+        if (video.src === "videos/promotion-arc/act3-2-5-promotion.mp4") {
+            setShowEndScreen(true);
+            return;
+        }
+        if (video.src === "videos/discovery-arc/act5-leave.mp4") {
+            setShowFinalEnd("leave");
+            return;
+        }
+        if (video.src === "videos/discovery-arc/act5-stay.mp4") {
+            setShowFinalEnd("stay");
+            return;
+        }
         if (video.loopbackTo && video.loopbackDelay) {
             const { videoId, timestamp } = video.loopbackTo;
             setCurrentVideoIndex(videoId - 1);
@@ -66,6 +82,22 @@ const VideoContainer = () => {
             setShowPrompt(true);
         }
     };
+
+    const handleRestart = () => {
+        setCurrentVideoIndex(0);
+        setStartTime(0);
+        setShowPrompt(false);
+        setShowEndScreen(false);
+        setShowFinalEnd(null);
+    };
+
+    if (showFinalEnd) {
+        return <FinalEndScreen type={showFinalEnd} />;
+    }
+
+    if (showEndScreen) {
+        return <EndScreen onRestart={handleRestart} />;
+    }
 
     return (
         <div className="video-container">

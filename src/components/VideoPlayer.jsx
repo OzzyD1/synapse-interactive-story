@@ -48,6 +48,7 @@ const VideoPlayer = ({
             style={{ objectFit }}
             controls
             controlsList="nofullscreen"
+            disablePictureInPicture
             autoPlay
             onEnded={onEnded}
             onError={handleError}
